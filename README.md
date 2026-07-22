@@ -40,6 +40,38 @@ To deliver the world's information in a simple, beautiful, and personalized mobi
 
 ---
 
+# Content Formula
+
+Every post on Kivo follows a consistent structure:
+
+```
+🟡 DID YOU KNOW?
+
+Headline
+
+↓
+
+What happened?
+
+↓
+
+Why does it matter?
+
+↓
+
+Quick facts
+
+↓
+
+Sources
+
+↓
+
+Comments
+```
+
+---
+
 # MVP Features
 
 ## Content Discovery
