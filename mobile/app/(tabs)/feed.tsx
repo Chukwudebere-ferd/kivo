@@ -1,80 +1,23 @@
-import { useState, useCallback } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { useState } from "react";
+import { useRouter } from "expo-router";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { feedItems, categories, formatCount } from "../../lib/mock-data";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const categories = [
-  { id: "for-you", label: "For You", icon: "sparkles" },
-  { id: "tech", label: "Tech", icon: "hardware-chip" },
-  { id: "science", label: "Science", icon: "flask" },
-  { id: "design", label: "Design", icon: "color-palette" },
-  { id: "business", label: "Business", icon: "briefcase" },
-  { id: "health", label: "Health", icon: "fitness" },
-  { id: "culture", label: "Culture", icon: "globe" },
-  { id: "sports", label: "Sports", icon: "football" },
-];
-
-type FeedItem = {
-  id: string;
-  category: string;
-  categoryIcon: string;
-  time: string;
-  title: string;
-  subtitle: string;
-  mediaUrl?: string;
-  likes: string;
-  comments: string;
-};
-
-const feedItems: FeedItem[] = [
-  {
-    id: "1",
-    category: "For You",
-    categoryIcon: "sparkles",
-    time: "3 min ago",
-    title: "How AI is transforming the way we discover knowledge",
-    subtitle: "The intersection of machine learning and information retrieval is creating a new paradigm for how we consume content.",
-    mediaUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600",
-    likes: "2.4K",
-    comments: "142",
-  },
-  {
-    id: "2",
-    category: "Tech",
-    categoryIcon: "hardware-chip",
-    time: "1 hour ago",
-    title: "The future of quantum computing in 2026",
-    subtitle: "Major breakthroughs in qubit stability are bringing us closer to practical quantum computers.",
-    likes: "1.8K",
-    comments: "89",
-  },
-  {
-    id: "3",
-    category: "Science",
-    categoryIcon: "flask",
-    time: "2 hours ago",
-    title: "New study reveals the hidden structure of dark matter",
-    subtitle: "Astrophysicists have mapped the largest-ever survey of dark matter distribution across the universe, revealing unexpected patterns that challenge existing models of cosmic evolution and structure formation.",
-    likes: "3.1K",
-    comments: "215",
-  },
-  {
-    id: "4",
-    category: "Design",
-    categoryIcon: "color-palette",
-    time: "5 hours ago",
-    title: "Minimalism is not just a style — it is a philosophy",
-    subtitle: "How reducing visual clutter can improve comprehension and user engagement in digital products.",
-    likes: "956",
-    comments: "67",
-  },
-];
-
 export default function FeedScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState("for-you");
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -122,7 +65,11 @@ export default function FeedScreen() {
         ))}
       </ScrollView>
 
-      <View style={styles.card}>
+      <TouchableOpacity
+        style={styles.card}
+        activeOpacity={0.95}
+        onPress={() => router.push(`/post/${item.id}`)}
+      >
         {hasMedia ? (
           <Image
             source={item.mediaUrl!}
@@ -161,11 +108,11 @@ export default function FeedScreen() {
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
             <Ionicons name="heart-outline" size={28} color="#FFFFFF" />
-            <Text style={styles.actionLabel}>{item.likes}</Text>
+            <Text style={styles.actionLabel}>{formatCount(item.likesCount)}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
             <Ionicons name="chatbubble-outline" size={28} color="#FFFFFF" />
-            <Text style={styles.actionLabel}>{item.comments}</Text>
+            <Text style={styles.actionLabel}>{formatCount(item.commentsCount)}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
             <Ionicons name="bookmark-outline" size={28} color="#FFFFFF" />
@@ -176,7 +123,7 @@ export default function FeedScreen() {
             <Text style={styles.actionLabel}>Share</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

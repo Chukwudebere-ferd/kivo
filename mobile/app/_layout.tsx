@@ -8,6 +8,7 @@ export default function RootLayout() {
         name="(auth)"
         options={{ headerShown: false, presentation: "modal" }}
       />
+      <Stack.Screen name="post/[id]" options={{ headerShown: false }} />
     </Stack>
   );
 }
