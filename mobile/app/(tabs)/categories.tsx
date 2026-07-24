@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { categoryList } from "../../lib/mock-data";
 
 export default function CategoriesScreen() {
   return (
@@ -6,10 +8,33 @@ export default function CategoriesScreen() {
       <View style={styles.header}>
         <Text style={styles.logo}>Kivo</Text>
       </View>
-      <View style={styles.content}>
-        <Text style={styles.title}>Categories</Text>
-        <Text style={styles.subtitle}>Browse by topic.</Text>
-      </View>
+
+      <Text style={styles.pageTitle}>Categories</Text>
+      <Text style={styles.pageSubtitle}>
+        Browse articles by topic
+      </Text>
+
+      <ScrollView
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {categoryList.map((cat) => (
+          <TouchableOpacity key={cat.id} style={styles.card} activeOpacity={0.7}>
+            <View style={styles.cardLeft}>
+              <View style={styles.iconBg}>
+                <Ionicons name={cat.icon as any} size={22} color="#4F46E5" />
+              </View>
+              <Text style={styles.cardLabel}>{cat.label}</Text>
+            </View>
+            <View style={styles.cardRight}>
+              <Text style={styles.cardCount}>{cat.count}</Text>
+              <Text style={styles.cardCountLabel}>articles</Text>
+              <Ionicons name="chevron-forward" size={18} color="#6B7280" />
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -30,22 +55,65 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     letterSpacing: -0.5,
   },
-  content: {
+  pageTitle: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#FFFFFF",
+    paddingHorizontal: 20,
+  },
+  pageSubtitle: {
+    fontSize: 14,
+    color: "#6B7280",
+    paddingHorizontal: 20,
+    marginTop: 4,
+    marginBottom: 20,
+  },
+  list: {
     flex: 1,
+  },
+  listContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+    gap: 8,
+  },
+  card: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#1A1A2E",
+    borderRadius: 12,
+    padding: 14,
+  },
+  cardLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+  },
+  iconBg: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: "rgba(79, 70, 229, 0.12)",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 40,
-    gap: 12,
   },
-  title: {
-    fontSize: 20,
+  cardLabel: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  cardRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  cardCount: {
+    fontSize: 16,
     fontWeight: "700",
     color: "#FFFFFF",
   },
-  subtitle: {
-    fontSize: 15,
-    color: "#6B7280",
-    textAlign: "center",
-    lineHeight: 22,
+  cardCountLabel: {
+    fontSize: 12,
+    color: "#9CA3AF",
   },
 });

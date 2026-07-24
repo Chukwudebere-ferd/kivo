@@ -1,3 +1,21 @@
+export const categoryList = [
+  { id: "tech", label: "Technology", icon: "hardware-chip", count: 142 },
+  { id: "ai", label: "Artificial Intelligence", icon: "sparkles", count: 98 },
+  { id: "science", label: "Science", icon: "flask", count: 87 },
+  { id: "business", label: "Business", icon: "briefcase", count: 76 },
+  { id: "finance", label: "Finance", icon: "cash", count: 63 },
+  { id: "design", label: "Design", icon: "color-palette", count: 54 },
+  { id: "programming", label: "Programming", icon: "code-slash", count: 48 },
+  { id: "gaming", label: "Gaming", icon: "game-controller", count: 41 },
+  { id: "health", label: "Health", icon: "fitness", count: 39 },
+  { id: "education", label: "Education", icon: "school", count: 35 },
+  { id: "startups", label: "Startups", icon: "rocket", count: 32 },
+  { id: "culture", label: "Culture", icon: "globe", count: 28 },
+  { id: "sports", label: "Sports", icon: "football", count: 24 },
+  { id: "entertainment", label: "Entertainment", icon: "film", count: 21 },
+  { id: "politics", label: "Politics", icon: "megaphone", count: 18 },
+];
+
 export const categories = [
   { id: "for-you", label: "For You", icon: "sparkles" },
   { id: "tech", label: "Tech", icon: "hardware-chip" },
@@ -90,6 +108,77 @@ export const feedItems: FeedItem[] = [
     commentsCount: 67,
     bookmarksCount: 430,
     sharesCount: 178,
+  },
+];
+
+export const trendingTopics = [
+  { id: "ai", label: "AI" },
+  { id: "quantum", label: "Quantum" },
+  { id: "space", label: "Space" },
+  { id: "design", label: "Design" },
+  { id: "startups", label: "Startups" },
+  { id: "climate", label: "Climate" },
+  { id: "cyber", label: "Cybersecurity" },
+  { id: "health", label: "Health Tech" },
+];
+
+export type SearchResult = {
+  id: string;
+  category: string;
+  categoryIcon: string;
+  title: string;
+  date: string;
+  imageUrl?: string;
+};
+
+export const searchResults: SearchResult[] = [
+  {
+    id: "s1",
+    category: "Tech",
+    categoryIcon: "hardware-chip",
+    title: "The rise of edge computing in IoT applications",
+    date: "2 hours ago",
+    imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=120",
+  },
+  {
+    id: "s2",
+    category: "Science",
+    categoryIcon: "flask",
+    title: "Breakthrough in nuclear fusion energy output",
+    date: "5 hours ago",
+    imageUrl: "https://images.unsplash.com/photo-1559757175-7d34e08f58d4?w=120",
+  },
+  {
+    id: "s3",
+    category: "Design",
+    categoryIcon: "color-palette",
+    title: "How typography shapes digital brand identity",
+    date: "8 hours ago",
+    imageUrl: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=120",
+  },
+  {
+    id: "s4",
+    category: "Business",
+    categoryIcon: "briefcase",
+    title: "Remote work trends reshaping commercial real estate",
+    date: "12 hours ago",
+    imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=120",
+  },
+  {
+    id: "s5",
+    category: "Health",
+    categoryIcon: "fitness",
+    title: "Wearable devices are detecting early disease markers",
+    date: "1 day ago",
+    imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=120",
+  },
+  {
+    id: "s6",
+    category: "Tech",
+    categoryIcon: "hardware-chip",
+    title: "Open source AI models are closing the gap with proprietary",
+    date: "1 day ago",
+    imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=120",
   },
 ];
 
