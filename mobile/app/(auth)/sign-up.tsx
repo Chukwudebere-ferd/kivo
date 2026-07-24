@@ -4,15 +4,17 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
 } from "react-native";
 import { router } from "expo-router";
 import { useAuthStore } from "../../lib/store/auth-store";
+import { useTheme, Theme } from "../../lib/theme";
 
 export default function SignUpScreen() {
+  const theme = useTheme();
+  const s = st(theme);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -48,19 +50,19 @@ export default function SignUpScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={{ flex: 1, backgroundColor: theme.bg }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={styles.form}>
-        <Text style={styles.title}>Create account</Text>
-        <Text style={styles.subtitle}>Start discovering knowledge</Text>
+      <View style={s.form}>
+        <Text style={[s.title, { color: theme.text }]}>Create account</Text>
+        <Text style={[s.subtitle, { color: theme.textSecondary }]}>Start discovering knowledge</Text>
 
-        {error ? <Text style={styles.error}>{error}</Text> : null}
+        {error ? <Text style={{ color: theme.error, fontSize: 14 }}>{error}</Text> : null}
 
         <TextInput
-          style={styles.input}
+          style={[s.input, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
           placeholder="Email"
-          placeholderTextColor="#6B7280"
+          placeholderTextColor={theme.placeholder}
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -69,9 +71,9 @@ export default function SignUpScreen() {
         />
 
         <TextInput
-          style={styles.input}
+          style={[s.input, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
           placeholder="Password"
-          placeholderTextColor="#6B7280"
+          placeholderTextColor={theme.placeholder}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -79,9 +81,9 @@ export default function SignUpScreen() {
         />
 
         <TextInput
-          style={styles.input}
+          style={[s.input, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
           placeholder="Confirm password"
-          placeholderTextColor="#6B7280"
+          placeholderTextColor={theme.placeholder}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
@@ -89,24 +91,24 @@ export default function SignUpScreen() {
         />
 
         <TouchableOpacity
-          style={[styles.button, isLoading && styles.buttonDisabled]}
+          style={[s.button, { backgroundColor: theme.accent }, isLoading && { opacity: 0.6 }]}
           onPress={handleSignUp}
           disabled={isLoading}
         >
           {isLoading ? (
             <ActivityIndicator color="#FFFFFF" />
           ) : (
-            <Text style={styles.buttonText}>Create Account</Text>
+            <Text style={s.buttonText}>Create Account</Text>
           )}
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.switchLink}
+          style={s.switchLink}
           onPress={() => router.replace("/(auth)/sign-in")}
         >
-          <Text style={styles.switchText}>
+          <Text style={{ fontSize: 14, color: theme.textMuted }}>
             Already have an account?{" "}
-            <Text style={styles.switchHighlight}>Sign In</Text>
+            <Text style={{ color: theme.accent, fontWeight: "600" }}>Sign In</Text>
           </Text>
         </TouchableOpacity>
       </View>
@@ -114,66 +116,23 @@ export default function SignUpScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0F0F1A",
-  },
-  form: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 24,
-    gap: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "#FFFFFF",
-  },
-  subtitle: {
-    fontSize: 15,
-    color: "#6B7280",
-    marginBottom: 8,
-  },
-  error: {
-    color: "#EF4444",
-    fontSize: 14,
-  },
+const st = (t: Theme) => ({
+  form: { flex: 1, justifyContent: "center" as const, paddingHorizontal: 24, gap: 16 },
+  title: { fontSize: 28, fontWeight: "700" as const },
+  subtitle: { fontSize: 15, marginBottom: 8 },
   input: {
-    backgroundColor: "#1A1A2E",
     borderWidth: 1,
-    borderColor: "#2A2A3E",
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: "#FFFFFF",
   },
   button: {
-    backgroundColor: "#4F46E5",
     paddingVertical: 16,
     borderRadius: 12,
-    alignItems: "center",
+    alignItems: "center" as const,
     marginTop: 8,
   },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  switchLink: {
-    alignItems: "center",
-    paddingVertical: 8,
-  },
-  switchText: {
-    fontSize: 14,
-    color: "#6B7280",
-  },
-  switchHighlight: {
-    color: "#4F46E5",
-    fontWeight: "600",
-  },
+  buttonText: { color: "#FFFFFF", fontSize: 16, fontWeight: "700" as const },
+  switchLink: { alignItems: "center" as const, paddingVertical: 8 },
 });

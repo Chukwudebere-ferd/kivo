@@ -182,6 +182,32 @@ export const searchResults: SearchResult[] = [
   },
 ];
 
+export const bookmarkedItems: SearchResult[] = [
+  {
+    id: "b1",
+    category: "Tech",
+    categoryIcon: "hardware-chip",
+    title: "The future of quantum computing in 2026",
+    date: "Saved 2 days ago",
+    imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=120",
+  },
+  {
+    id: "b2",
+    category: "Design",
+    categoryIcon: "color-palette",
+    title: "Minimalism is not just a style, it is a philosophy",
+    date: "Saved 5 days ago",
+  },
+  {
+    id: "b3",
+    category: "Science",
+    categoryIcon: "flask",
+    title: "New study reveals the hidden structure of dark matter",
+    date: "Saved 1 week ago",
+    imageUrl: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=120",
+  },
+];
+
 export function formatCount(count: number): string {
   if (count >= 1000) {
     const k = count / 1000;

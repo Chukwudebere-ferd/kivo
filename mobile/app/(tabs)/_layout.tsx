@@ -1,5 +1,6 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../../lib/theme";
 
 const tabIcons: Record<string, { focused: keyof typeof Ionicons.glyphMap; default: keyof typeof Ionicons.glyphMap }> = {
   feed: { focused: "home", default: "home-outline" },
@@ -10,15 +11,17 @@ const tabIcons: Record<string, { focused: keyof typeof Ionicons.glyphMap; defaul
 };
 
 export default function TabsLayout() {
+  const theme = useTheme();
+
   return (
     <Tabs
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: "#4F46E5",
-        tabBarInactiveTintColor: "#9CA3AF",
+        tabBarActiveTintColor: theme.tabActive,
+        tabBarInactiveTintColor: theme.tabInactive,
         tabBarStyle: {
-          backgroundColor: "#0F0F1A",
-          borderTopColor: "#1F1F2E",
+          backgroundColor: theme.tabBarBg,
+          borderTopColor: theme.tabBarBorder,
           borderTopWidth: 1,
           paddingTop: 6,
           paddingBottom: 12,

@@ -2,7 +2,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   TextInput,
   TouchableOpacity,
@@ -14,6 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { feedItems, formatCount } from "../../lib/mock-data";
+import { useTheme, Theme } from "../../lib/theme";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const HERO_HEIGHT = 220;
@@ -23,104 +23,106 @@ export default function PostPreviewScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const theme = useTheme();
+  const s = st(theme);
 
   const item = feedItems.find((i) => i.id === id);
 
   if (!item) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.errorText}>Post not found</Text>
+      <View style={{ flex: 1, backgroundColor: theme.bg, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ color: theme.text, fontSize: 16 }}>Post not found</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.headerSide}>
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+    <View style={{ flex: 1, backgroundColor: theme.bg }}>
+      <View style={[s.header, { paddingTop: insets.top + 8, backgroundColor: theme.bg, borderBottomColor: theme.borderLight }]}>
+        <TouchableOpacity onPress={() => router.back()} style={s.headerSide}>
+          <Ionicons name="arrow-back" size={24} color={theme.text} />
         </TouchableOpacity>
-        <Text style={styles.logo}>Kivo</Text>
-        <TouchableOpacity style={styles.headerSide}>
-          <Ionicons name="ellipsis-vertical" size={22} color="#FFFFFF" />
+        <Text style={[s.logo, { color: theme.text }]}>Kivo</Text>
+        <TouchableOpacity style={s.headerSide}>
+          <Ionicons name="ellipsis-vertical" size={22} color={theme.text} />
         </TouchableOpacity>
       </View>
 
       <KeyboardAvoidingView
-        style={styles.keyboardAvoid}
+        style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
       >
         <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
+          style={s.scrollView}
+          contentContainerStyle={s.scrollContent}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
           {item.mediaUrl && (
             <Image
               source={item.mediaUrl}
-              style={styles.heroImage}
+              style={s.heroImage}
               contentFit="cover"
               transition={300}
             />
           )}
 
-          <View style={styles.bodySection}>
-            <View style={styles.metaRow}>
-              <View style={styles.categoryBadge}>
-                <Ionicons name={item.categoryIcon as any} size={12} color="#FFFFFF" />
-                <Text style={styles.categoryText}>{item.category}</Text>
+          <View style={s.bodySection}>
+            <View style={s.metaRow}>
+              <View style={[s.categoryBadge, { backgroundColor: theme.accentBg }]}>
+                <Ionicons name={item.categoryIcon as any} size={12} color={theme.accent} />
+                <Text style={[s.categoryText, { color: theme.accent }]}>{item.category}</Text>
               </View>
-              <View style={styles.metaDot} />
-              <Text style={styles.timeText}>{item.time}</Text>
+              <View style={[s.metaDot, { backgroundColor: theme.textMuted }]} />
+              <Text style={[s.timeText, { color: theme.textMuted }]}>{item.time}</Text>
             </View>
 
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={[s.title, { color: theme.text }]}>{item.title}</Text>
 
-            <View style={styles.divider} />
+            <View style={[s.divider, { backgroundColor: theme.borderLight }]} />
 
-            <Text style={styles.subtitle}>{item.subtitle}</Text>
-            <Text style={styles.contentBody}>{item.content}</Text>
+            <Text style={[s.subtitle, { color: theme.textSecondary }]}>{item.subtitle}</Text>
+            <Text style={[s.contentBody, { color: theme.textSecondary }]}>{item.content}</Text>
 
-            <View style={styles.divider} />
+            <View style={[s.divider, { backgroundColor: theme.borderLight }]} />
 
-            <View style={styles.statsRow}>
-              <View style={styles.statItem}>
-                <Ionicons name="chatbubble-outline" size={20} color="#9CA3AF" />
-                <Text style={styles.statCount}>{formatCount(item.commentsCount)}</Text>
-                <Text style={styles.statLabel}>comments</Text>
+            <View style={s.statsRow}>
+              <View style={s.statItem}>
+                <Ionicons name="chatbubble-outline" size={20} color={theme.textMuted} />
+                <Text style={[s.statCount, { color: theme.text }]}>{formatCount(item.commentsCount)}</Text>
+                <Text style={[s.statLabel, { color: theme.textMuted }]}>comments</Text>
               </View>
-              <View style={styles.statItem}>
-                <Ionicons name="heart-outline" size={20} color="#9CA3AF" />
-                <Text style={styles.statCount}>{formatCount(item.likesCount)}</Text>
-                <Text style={styles.statLabel}>likes</Text>
+              <View style={s.statItem}>
+                <Ionicons name="heart-outline" size={20} color={theme.textMuted} />
+                <Text style={[s.statCount, { color: theme.text }]}>{formatCount(item.likesCount)}</Text>
+                <Text style={[s.statLabel, { color: theme.textMuted }]}>likes</Text>
               </View>
-              <View style={styles.statItem}>
-                <Ionicons name="bookmark-outline" size={20} color="#9CA3AF" />
-                <Text style={styles.statCount}>{formatCount(item.bookmarksCount)}</Text>
-                <Text style={styles.statLabel}>saves</Text>
+              <View style={s.statItem}>
+                <Ionicons name="bookmark-outline" size={20} color={theme.textMuted} />
+                <Text style={[s.statCount, { color: theme.text }]}>{formatCount(item.bookmarksCount)}</Text>
+                <Text style={[s.statLabel, { color: theme.textMuted }]}>saves</Text>
               </View>
-              <View style={styles.statItem}>
-                <Ionicons name="share-outline" size={20} color="#9CA3AF" />
-                <Text style={styles.statCount}>{formatCount(item.sharesCount)}</Text>
-                <Text style={styles.statLabel}>shares</Text>
+              <View style={s.statItem}>
+                <Ionicons name="share-outline" size={20} color={theme.textMuted} />
+                <Text style={[s.statCount, { color: theme.text }]}>{formatCount(item.sharesCount)}</Text>
+                <Text style={[s.statLabel, { color: theme.textMuted }]}>shares</Text>
               </View>
             </View>
           </View>
         </ScrollView>
 
-        <View style={styles.inputContainer}>
-          <View style={styles.inputRow}>
-            <Ionicons name="person-circle" size={32} color="#6B7280" />
+        <View style={[s.inputContainer, { borderTopColor: theme.borderLight, backgroundColor: theme.bg }]}>
+          <View style={s.inputRow}>
+            <Ionicons name="person-circle" size={32} color={theme.textMuted} />
             <TextInput
-              style={styles.input}
+              style={[s.input, { backgroundColor: theme.card, color: theme.text }]}
               placeholder="Write a comment..."
-              placeholderTextColor="#6B7280"
+              placeholderTextColor={theme.placeholder}
               multiline
             />
-            <TouchableOpacity style={styles.sendButton} activeOpacity={0.7}>
-              <Ionicons name="send" size={20} color="#4F46E5" />
+            <TouchableOpacity style={[s.sendButton, { backgroundColor: theme.accentBg }]} activeOpacity={0.7}>
+              <Ionicons name="send" size={20} color={theme.accent} />
             </TouchableOpacity>
           </View>
         </View>
@@ -129,162 +131,62 @@ export default function PostPreviewScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0F0F1A",
-  },
-  errorText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 100,
-  },
+const st = (t: Theme) => ({
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: "row" as const,
+    alignItems: "center" as const,
+    justifyContent: "space-between" as const,
     paddingHorizontal: 16,
     paddingBottom: 12,
-    backgroundColor: "#0F0F1A",
     borderBottomWidth: 1,
-    borderBottomColor: "#1F1F2E",
   },
-  headerSide: {
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  logo: {
-    fontSize: 22,
-    fontWeight: "800",
-    color: "#FFFFFF",
-    letterSpacing: -0.5,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingBottom: 16,
-  },
-  heroImage: {
-    width: SCREEN_WIDTH,
-    height: HERO_HEIGHT,
-  },
-  bodySection: {
-    paddingHorizontal: CONTENT_PADDING,
-    paddingTop: 20,
-  },
-  metaRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 12,
-  },
+  headerSide: { width: 40, height: 40, justifyContent: "center" as const, alignItems: "center" as const },
+  logo: { fontSize: 22, fontWeight: "800" as const, letterSpacing: -0.5 },
+  scrollView: { flex: 1 },
+  scrollContent: { paddingBottom: 16 },
+  heroImage: { width: SCREEN_WIDTH, height: HERO_HEIGHT },
+  bodySection: { paddingHorizontal: CONTENT_PADDING, paddingTop: 20 },
+  metaRow: { flexDirection: "row" as const, alignItems: "center" as const, gap: 8, marginBottom: 12 },
   categoryBadge: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "row" as const,
+    alignItems: "center" as const,
     gap: 4,
-    backgroundColor: "rgba(79, 70, 229, 0.15)",
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
   },
-  categoryText: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#4F46E5",
-  },
-  metaDot: {
-    width: 3,
-    height: 3,
-    borderRadius: 1.5,
-    backgroundColor: "#6B7280",
-  },
-  timeText: {
-    fontSize: 12,
-    color: "#6B7280",
-    fontWeight: "500",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#FFFFFF",
-    lineHeight: 32,
-    marginBottom: 16,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: "#1F1F2E",
-    marginBottom: 16,
-  },
-  subtitle: {
-    fontSize: 15,
-    color: "#D1D5DB",
-    lineHeight: 22,
-    fontWeight: "500",
-    marginBottom: 16,
-  },
-  contentBody: {
-    fontSize: 14,
-    color: "#9CA3AF",
-    lineHeight: 22,
-    marginBottom: 16,
-  },
-  statsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 8,
-  },
-  statItem: {
-    alignItems: "center",
-    gap: 4,
-    flex: 1,
-  },
-  statCount: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: "#FFFFFF",
-  },
-  statLabel: {
-    fontSize: 11,
-    color: "#6B7280",
-    fontWeight: "500",
-  },
-  keyboardAvoid: {
-    flex: 1,
-  },
+  categoryText: { fontSize: 12, fontWeight: "600" as const },
+  metaDot: { width: 3, height: 3, borderRadius: 1.5 },
+  timeText: { fontSize: 12, fontWeight: "500" as const },
+  title: { fontSize: 24, fontWeight: "700" as const, lineHeight: 32, marginBottom: 16 },
+  divider: { height: 1, marginBottom: 16 },
+  subtitle: { fontSize: 15, lineHeight: 22, fontWeight: "500" as const, marginBottom: 16 },
+  contentBody: { fontSize: 14, lineHeight: 22, marginBottom: 16 },
+  statsRow: { flexDirection: "row" as const, justifyContent: "space-between" as const, paddingVertical: 8 },
+  statItem: { alignItems: "center" as const, gap: 4, flex: 1 },
+  statCount: { fontSize: 16, fontWeight: "700" as const },
+  statLabel: { fontSize: 11, fontWeight: "500" as const },
   inputContainer: {
     borderTopWidth: 1,
-    borderTopColor: "#1F1F2E",
-    backgroundColor: "#0F0F1A",
     paddingHorizontal: 16,
     paddingTop: 12,
     paddingBottom: 24,
   },
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    gap: 10,
-  },
+  inputRow: { flexDirection: "row" as const, alignItems: "flex-end" as const, gap: 10 },
   input: {
     flex: 1,
-    backgroundColor: "#1A1A2E",
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 10,
     fontSize: 14,
-    color: "#FFFFFF",
     maxHeight: 80,
   },
   sendButton: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "rgba(79, 70, 229, 0.15)",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "center" as const,
+    alignItems: "center" as const,
     marginBottom: 2,
   },
 });

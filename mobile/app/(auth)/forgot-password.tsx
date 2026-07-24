@@ -4,13 +4,16 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Theme } from "../../lib/theme";
 
 export default function ForgotPasswordScreen() {
+  const theme = useTheme();
+  const s = st(theme);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
@@ -28,23 +31,23 @@ export default function ForgotPasswordScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={{ flex: 1, backgroundColor: theme.bg }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={styles.form}>
+      <View style={s.form}>
         {!sent ? (
           <>
-            <Text style={styles.title}>Reset password</Text>
-            <Text style={styles.subtitle}>
+            <Text style={[s.title, { color: theme.text }]}>Reset password</Text>
+            <Text style={[s.subtitle, { color: theme.textSecondary }]}>
               Enter your email and we'll send you a reset link.
             </Text>
 
-            {error ? <Text style={styles.error}>{error}</Text> : null}
+            {error ? <Text style={{ color: theme.error, fontSize: 14 }}>{error}</Text> : null}
 
             <TextInput
-              style={styles.input}
+              style={[s.input, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
               placeholder="Email"
-              placeholderTextColor="#6B7280"
+              placeholderTextColor={theme.placeholder}
               value={email}
               onChangeText={setEmail}
               autoCapitalize="none"
@@ -52,31 +55,31 @@ export default function ForgotPasswordScreen() {
               autoComplete="email"
             />
 
-            <TouchableOpacity style={styles.button} onPress={handleSend}>
-              <Text style={styles.buttonText}>Send Reset Link</Text>
+            <TouchableOpacity style={[s.button, { backgroundColor: theme.accent }]} onPress={handleSend}>
+              <Text style={s.buttonText}>Send Reset Link</Text>
             </TouchableOpacity>
           </>
         ) : (
           <>
-            <Text style={styles.title}>Check your email</Text>
-            <Text style={styles.subtitle}>
+            <Text style={[s.title, { color: theme.text }]}>Check your email</Text>
+            <Text style={[s.subtitle, { color: theme.textSecondary }]}>
               If an account exists for{" "}
-              <Text style={styles.emailHighlight}>{email}</Text>, we've sent a
+              <Text style={{ color: theme.text, fontWeight: "600" }}>{email}</Text>, we've sent a
               password reset link.
             </Text>
 
-            <View style={styles.sentIcon}>
-              <Text style={styles.sentIconText}>{'\u2713'}</Text>
+            <View style={[s.sentIcon, { backgroundColor: theme.success }]}>
+              <Ionicons name="checkmark" size={28} color="#FFFFFF" />
             </View>
           </>
         )}
 
         <TouchableOpacity
-          style={styles.switchLink}
+          style={s.switchLink}
           onPress={() => router.back()}
         >
-          <Text style={styles.switchText}>
-            <Text style={styles.switchHighlight}>Back to Sign In</Text>
+          <Text style={{ fontSize: 14, color: theme.textMuted }}>
+            <Text style={{ color: theme.accent, fontWeight: "600" }}>Back to Sign In</Text>
           </Text>
         </TouchableOpacity>
       </View>
@@ -84,83 +87,32 @@ export default function ForgotPasswordScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0F0F1A",
-  },
-  form: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 24,
-    gap: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "#FFFFFF",
-  },
-  subtitle: {
-    fontSize: 15,
-    color: "#6B7280",
-    lineHeight: 22,
-    marginBottom: 8,
-  },
-  error: {
-    color: "#EF4444",
-    fontSize: 14,
-  },
+const st = (t: Theme) => ({
+  form: { flex: 1, justifyContent: "center" as const, paddingHorizontal: 24, gap: 16 },
+  title: { fontSize: 28, fontWeight: "700" as const },
+  subtitle: { fontSize: 15, lineHeight: 22, marginBottom: 8 },
   input: {
-    backgroundColor: "#1A1A2E",
     borderWidth: 1,
-    borderColor: "#2A2A3E",
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: "#FFFFFF",
   },
   button: {
-    backgroundColor: "#4F46E5",
     paddingVertical: 16,
     borderRadius: 12,
-    alignItems: "center",
+    alignItems: "center" as const,
     marginTop: 8,
   },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  emailHighlight: {
-    color: "#FFFFFF",
-    fontWeight: "600",
-  },
+  buttonText: { color: "#FFFFFF", fontSize: 16, fontWeight: "700" as const },
   sentIcon: {
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: "#065F46",
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
+    justifyContent: "center" as const,
+    alignItems: "center" as const,
+    alignSelf: "center" as const,
     marginTop: 16,
   },
-  sentIconText: {
-    fontSize: 28,
-    color: "#FFFFFF",
-    fontWeight: "700",
-  },
-  switchLink: {
-    alignItems: "center",
-    paddingVertical: 16,
-  },
-  switchText: {
-    fontSize: 14,
-    color: "#6B7280",
-  },
-  switchHighlight: {
-    color: "#4F46E5",
-    fontWeight: "600",
-  },
+  switchLink: { alignItems: "center" as const, paddingVertical: 16 },
 });

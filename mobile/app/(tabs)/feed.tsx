@@ -3,7 +3,6 @@ import { useRouter } from "expo-router";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
   Dimensions,
@@ -12,51 +11,56 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { feedItems, categories, formatCount } from "../../lib/mock-data";
+import { useTheme, Theme } from "../../lib/theme";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function FeedScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const theme = useTheme();
   const [activeCategory, setActiveCategory] = useState("for-you");
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const item = feedItems[currentIndex];
   const hasMedia = !!item.mediaUrl;
+  const s = st(theme);
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
-        <Text style={styles.logo}>Kivo</Text>
+    <View style={[s.container, { backgroundColor: theme.bg }]}>
+      <View style={[s.header, { paddingTop: insets.top + 12 }]}>
+        <Text style={[s.logo, { color: theme.text }]}>Kivo</Text>
         <TouchableOpacity>
-          <Ionicons name="search-outline" size={24} color="#FFFFFF" />
+          <Ionicons name="search-outline" size={24} color={theme.text} />
         </TouchableOpacity>
       </View>
 
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={styles.categoriesRow}
-        contentContainerStyle={styles.categoriesContent}
+        style={s.categoriesRow}
+        contentContainerStyle={s.categoriesContent}
       >
         {categories.map((cat) => (
           <TouchableOpacity
             key={cat.id}
             style={[
-              styles.categoryPill,
-              activeCategory === cat.id && styles.categoryPillActive,
+              s.categoryPill,
+              { backgroundColor: theme.pillBg },
+              activeCategory === cat.id && { backgroundColor: theme.pillActive },
             ]}
             onPress={() => setActiveCategory(cat.id)}
           >
             <Ionicons
               name={cat.icon as any}
               size={16}
-              color={activeCategory === cat.id ? "#FFFFFF" : "#9CA3AF"}
+              color={activeCategory === cat.id ? "#FFFFFF" : theme.textSecondary}
             />
             <Text
               style={[
-                styles.categoryLabel,
-                activeCategory === cat.id && styles.categoryLabelActive,
+                s.categoryLabel,
+                { color: theme.textSecondary },
+                activeCategory === cat.id && { color: "#FFFFFF" },
               ]}
             >
               {cat.label}
@@ -66,61 +70,61 @@ export default function FeedScreen() {
       </ScrollView>
 
       <TouchableOpacity
-        style={styles.card}
+        style={s.card}
         activeOpacity={0.95}
         onPress={() => router.push(`/post/${item.id}`)}
       >
         {hasMedia ? (
           <Image
             source={item.mediaUrl!}
-            style={styles.mediaImage}
+            style={s.mediaImage}
             contentFit="cover"
             transition={300}
           />
         ) : (
-          <View style={styles.textOnlyCard}>
-            <View style={styles.textOnlyContent}>
-              <Text style={styles.textOnlyTitle}>{item.title}</Text>
-              <Text style={styles.textOnlySubtitle}>{item.subtitle}</Text>
+          <View style={[s.textOnlyCard, { backgroundColor: theme.card }]}>
+            <View style={s.textOnlyContent}>
+              <Text style={[s.textOnlyTitle, { color: theme.text }]}>{item.title}</Text>
+              <Text style={[s.textOnlySubtitle, { color: theme.textSecondary }]}>{item.subtitle}</Text>
             </View>
           </View>
         )}
 
-        <View style={styles.overlayGradient} />
+        <View style={s.overlayGradient} />
 
-        <View style={styles.mediaInfo}>
-          <View style={styles.categoryBadge}>
+        <View style={s.mediaInfo}>
+          <View style={[s.categoryBadge, { backgroundColor: theme.overlay }]}>
             <Ionicons name={item.categoryIcon as any} size={12} color="#FFFFFF" />
-            <Text style={styles.categoryBadgeText}>{item.category}</Text>
+            <Text style={s.categoryBadgeText}>{item.category}</Text>
           </View>
-          <Text style={styles.mediaTime}>{item.time}</Text>
-          <Text style={styles.mediaTitle} numberOfLines={2}>
+          <Text style={s.mediaTime}>{item.time}</Text>
+          <Text style={s.mediaTitle} numberOfLines={2}>
             {item.title}
           </Text>
         </View>
 
-        <View style={styles.actions}>
-          <TouchableOpacity style={styles.actionButton}>
-            <View style={styles.followRing}>
+        <View style={s.actions}>
+          <TouchableOpacity style={s.actionButton}>
+            <View style={s.followRing}>
               <Ionicons name="person-add-outline" size={22} color="#FFFFFF" />
             </View>
-            <Text style={styles.actionLabel}>Follow</Text>
+            <Text style={s.actionLabel}>Follow</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={s.actionButton}>
             <Ionicons name="heart-outline" size={28} color="#FFFFFF" />
-            <Text style={styles.actionLabel}>{formatCount(item.likesCount)}</Text>
+            <Text style={s.actionLabel}>{formatCount(item.likesCount)}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={s.actionButton}>
             <Ionicons name="chatbubble-outline" size={28} color="#FFFFFF" />
-            <Text style={styles.actionLabel}>{formatCount(item.commentsCount)}</Text>
+            <Text style={s.actionLabel}>{formatCount(item.commentsCount)}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={s.actionButton}>
             <Ionicons name="bookmark-outline" size={28} color="#FFFFFF" />
-            <Text style={styles.actionLabel}>Save</Text>
+            <Text style={s.actionLabel}>Save</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={s.actionButton}>
             <Ionicons name="share-outline" size={28} color="#FFFFFF" />
-            <Text style={styles.actionLabel}>Share</Text>
+            <Text style={s.actionLabel}>Share</Text>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -128,146 +132,81 @@ export default function FeedScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0F0F1A",
-  },
+const st = (t: Theme) => ({
+  container: { flex: 1 },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: "row" as const,
+    justifyContent: "space-between" as const,
+    alignItems: "center" as const,
     paddingHorizontal: 20,
     paddingBottom: 12,
   },
-  logo: {
-    fontSize: 24,
-    fontWeight: "800",
-    color: "#FFFFFF",
-    letterSpacing: -0.5,
-  },
-  categoriesRow: {
-    flexGrow: 0,
-  },
+  logo: { fontSize: 24, fontWeight: "800" as const, letterSpacing: -0.5 },
+  categoriesRow: { flexGrow: 0 },
   categoriesContent: {
     paddingHorizontal: 16,
     gap: 8,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "row" as const,
+    alignItems: "center" as const,
     paddingBottom: 8,
   },
   categoryPill: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "row" as const,
+    alignItems: "center" as const,
     gap: 6,
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: "#1A1A2E",
   },
-  categoryPillActive: {
-    backgroundColor: "#000000",
-  },
-  categoryLabel: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: "#9CA3AF",
-  },
-  categoryLabelActive: {
-    color: "#FFFFFF",
-  },
-  card: {
-    flex: 1,
-    position: "relative",
-    overflow: "hidden",
-  },
-  mediaImage: {
-    flex: 1,
-    width: "100%",
-  },
-  textOnlyCard: {
-    flex: 1,
-    backgroundColor: "#1A1A2E",
-    justifyContent: "center",
-    paddingHorizontal: 24,
-  },
-  textOnlyContent: {
-    gap: 16,
-  },
-  textOnlyTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#FFFFFF",
-    lineHeight: 30,
-  },
-  textOnlySubtitle: {
-    fontSize: 15,
-    color: "#9CA3AF",
-    lineHeight: 22,
-  },
+  categoryLabel: { fontSize: 13, fontWeight: "600" as const },
+  card: { flex: 1, position: "relative" as const, overflow: "hidden" as const },
+  mediaImage: { flex: 1, width: "100%" as const },
+  textOnlyCard: { flex: 1, justifyContent: "center" as const, paddingHorizontal: 24 },
+  textOnlyContent: { gap: 16 },
+  textOnlyTitle: { fontSize: 22, fontWeight: "700" as const, lineHeight: 30 },
+  textOnlySubtitle: { fontSize: 15, lineHeight: 22 },
   overlayGradient: {
-    position: "absolute",
+    position: "absolute" as const,
     bottom: 0,
     left: 0,
     right: 0,
     height: SCREEN_HEIGHT * 0.35,
-    backgroundColor: "transparent",
   },
   mediaInfo: {
-    position: "absolute",
+    position: "absolute" as const,
     bottom: 16,
     left: 16,
     right: 80,
     gap: 4,
   },
   categoryBadge: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "row" as const,
+    alignItems: "center" as const,
     gap: 4,
-    alignSelf: "flex-start",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    alignSelf: "flex-start" as const,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
   },
-  categoryBadgeText: {
-    fontSize: 11,
-    fontWeight: "600",
-    color: "#FFFFFF",
-  },
-  mediaTime: {
-    fontSize: 12,
-    color: "#D1D5DB",
-  },
-  mediaTitle: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: "#FFFFFF",
-    lineHeight: 22,
-  },
+  categoryBadgeText: { fontSize: 11, fontWeight: "600" as const, color: "#FFFFFF" },
+  mediaTime: { fontSize: 12, color: "#D1D5DB" },
+  mediaTitle: { fontSize: 16, fontWeight: "700" as const, color: "#FFFFFF", lineHeight: 22 },
   actions: {
-    position: "absolute",
+    position: "absolute" as const,
     right: 12,
     bottom: 40,
-    alignItems: "center",
+    alignItems: "center" as const,
     gap: 16,
   },
-  actionButton: {
-    alignItems: "center",
-    gap: 2,
-  },
+  actionButton: { alignItems: "center" as const, gap: 2 },
   followRing: {
     width: 36,
     height: 36,
     borderRadius: 18,
     borderWidth: 2,
     borderColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "center" as const,
+    alignItems: "center" as const,
   },
-  actionLabel: {
-    fontSize: 11,
-    color: "#FFFFFF",
-    fontWeight: "500",
-  },
+  actionLabel: { fontSize: 11, color: "#FFFFFF", fontWeight: "500" as const },
 });
