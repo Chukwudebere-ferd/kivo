@@ -208,6 +208,164 @@ export const bookmarkedItems: SearchResult[] = [
   },
 ];
 
+export type Comment = {
+  id: string;
+  author: string;
+  avatarLetter: string;
+  time: string;
+  content: string;
+  likesCount: number;
+  replies?: Comment[];
+};
+
+export const postComments: Comment[] = [
+  {
+    id: "c1",
+    author: "Alex Chen",
+    avatarLetter: "A",
+    time: "2 hours ago",
+    content: "This is exactly what I've been thinking about. The shift from pull to push discovery is going to change how we consume information entirely.",
+    likesCount: 24,
+    replies: [
+      {
+        id: "c1r1",
+        author: "Sarah Kim",
+        avatarLetter: "S",
+        time: "1 hour ago",
+        content: "Totally agree! The challenge will be avoiding filter bubbles while keeping recommendations relevant.",
+        likesCount: 12,
+      },
+      {
+        id: "c1r2",
+        author: "Alex Chen",
+        avatarLetter: "A",
+        time: "45 min ago",
+        content: "Exactly, that's the key balance. Curious how Kivo plans to handle that.",
+        likesCount: 5,
+      },
+    ],
+  },
+  {
+    id: "c2",
+    author: "Marcus Johnson",
+    avatarLetter: "M",
+    time: "3 hours ago",
+    content: "Great read. The content formula makes knowledge so much more digestible. Would love to see more sources cited though.",
+    likesCount: 18,
+    replies: [
+      {
+        id: "c2r1",
+        author: "Kivo Team",
+        avatarLetter: "K",
+        time: "2 hours ago",
+        content: "Thanks Marcus! We're working on better source attribution in the next update.",
+        likesCount: 31,
+      },
+    ],
+  },
+  {
+    id: "c3",
+    author: "Priya Patel",
+    avatarLetter: "P",
+    time: "5 hours ago",
+    content: "The one-story-at-a-time approach is brilliant. I always felt overwhelmed by infinite scroll feeds.",
+    likesCount: 42,
+  },
+];
+
+export type UserComment = {
+  id: string;
+  articleTitle: string;
+  content: string;
+  time: string;
+  likesCount: number;
+};
+
+export const myComments: UserComment[] = [
+  {
+    id: "mc1",
+    articleTitle: "How AI is transforming the way we discover knowledge",
+    content: "This is exactly what I've been thinking about. The shift from pull to push discovery is going to change how we consume information entirely.",
+    time: "2 hours ago",
+    likesCount: 24,
+  },
+  {
+    id: "mc2",
+    articleTitle: "The future of quantum computing in 2026",
+    content: "Great breakdown of where we're actually at. The qubit coherence improvement is the real story here.",
+    time: "1 day ago",
+    likesCount: 8,
+  },
+  {
+    id: "mc3",
+    articleTitle: "Minimalism is not just a style, it is a philosophy",
+    content: "This resonates. Every pixel should earn its place. Beautifully written.",
+    time: "3 days ago",
+    likesCount: 15,
+  },
+];
+
+export const likedPosts: SearchResult[] = [
+  {
+    id: "lp1",
+    category: "Tech",
+    categoryIcon: "hardware-chip",
+    title: "The rise of edge computing in IoT applications",
+    date: "Liked 3 hours ago",
+    imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=120",
+  },
+  {
+    id: "lp2",
+    category: "Science",
+    categoryIcon: "flask",
+    title: "Breakthrough in nuclear fusion energy output",
+    date: "Liked yesterday",
+    imageUrl: "https://images.unsplash.com/photo-1559757175-7d34e08f58d4?w=120",
+  },
+  {
+    id: "lp3",
+    category: "Design",
+    categoryIcon: "color-palette",
+    title: "How typography shapes digital brand identity",
+    date: "Liked 3 days ago",
+    imageUrl: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=120",
+  },
+];
+
+export const readingHistory: SearchResult[] = [
+  {
+    id: "rh1",
+    category: "Tech",
+    categoryIcon: "hardware-chip",
+    title: "How AI is transforming the way we discover knowledge",
+    date: "Read 30 min ago",
+    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=120",
+  },
+  {
+    id: "rh2",
+    category: "Science",
+    categoryIcon: "flask",
+    title: "New study reveals the hidden structure of dark matter",
+    date: "Read 2 hours ago",
+    imageUrl: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=120",
+  },
+  {
+    id: "rh3",
+    category: "Design",
+    categoryIcon: "color-palette",
+    title: "Minimalism is not just a style, it is a philosophy",
+    date: "Read yesterday",
+  },
+  {
+    id: "rh4",
+    category: "Tech",
+    categoryIcon: "hardware-chip",
+    title: "The future of quantum computing in 2026",
+    date: "Read 3 days ago",
+    imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=120",
+  },
+];
+
 export function formatCount(count: number): string {
   if (count >= 1000) {
     const k = count / 1000;

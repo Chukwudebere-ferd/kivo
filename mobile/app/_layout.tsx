@@ -18,6 +18,10 @@ export default function RootLayout() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="post/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="profile/reading-history" options={{ headerShown: false }} />
+      <Stack.Screen name="profile/liked-posts" options={{ headerShown: false }} />
+      <Stack.Screen name="profile/comments" options={{ headerShown: false }} />
+      <Stack.Screen name="profile/about" options={{ headerShown: false }} />
       </Stack>
     </View>
   );

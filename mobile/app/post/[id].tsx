@@ -12,7 +12,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { feedItems, formatCount } from "../../lib/mock-data";
+import { feedItems, formatCount, postComments } from "../../lib/mock-data";
 import { useTheme, Theme } from "../../lib/theme";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -112,6 +112,31 @@ export default function PostPreviewScreen() {
           </View>
         </ScrollView>
 
+        <View style={[s.commentsSection, { borderTopColor: theme.borderLight }]}>
+          <Text style={[s.commentsTitle, { color: theme.text }]}>
+            Comments ({postComments.length})
+          </Text>
+
+          {postComments.map((comment) => (
+            <View key={comment.id} style={[s.comment, { borderBottomColor: theme.borderLight }]}>
+              <View style={[s.commentAvatar, { backgroundColor: theme.accentBg }]}>
+                <Ionicons name="person-outline" size={16} color={theme.accent} />
+              </View>
+              <View style={s.commentBody}>
+                <View style={s.commentRow}>
+                  <Text style={[s.commentAuthor, { color: theme.text }]}>{comment.author}</Text>
+                  <Text style={[s.commentTime, { color: theme.textMuted }]}>{comment.time}</Text>
+                </View>
+                <Text style={[s.commentContent, { color: theme.textSecondary }]}>{comment.content}</Text>
+                <TouchableOpacity style={s.commentLike} activeOpacity={0.5}>
+                  <Ionicons name="heart-outline" size={14} color={theme.textMuted} />
+                  <Text style={[s.commentLikeText, { color: theme.textMuted }]}>{formatCount(comment.likesCount)}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))}
+        </View>
+
         <View style={[s.inputContainer, { borderTopColor: theme.borderLight, backgroundColor: theme.bg }]}>
           <View style={s.inputRow}>
             <Ionicons name="person-circle" size={32} color={theme.textMuted} />
@@ -132,6 +157,62 @@ export default function PostPreviewScreen() {
 }
 
 const st = (t: Theme) => ({
+  commentsSection: {
+    borderTopWidth: 1,
+    paddingHorizontal: CONTENT_PADDING,
+    paddingTop: 16,
+  },
+  commentsTitle: {
+    fontSize: 16,
+    fontWeight: "700" as const,
+    marginBottom: 16,
+  },
+  comment: {
+    flexDirection: "row" as const,
+    gap: 12,
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottomWidth: 1,
+  },
+  commentAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: "center" as const,
+    alignItems: "center" as const,
+    marginTop: 2,
+  },
+  commentBody: {
+    flex: 1,
+    gap: 4,
+  },
+  commentRow: {
+    flexDirection: "row" as const,
+    alignItems: "center" as const,
+    gap: 8,
+  },
+  commentAuthor: {
+    fontSize: 13,
+    fontWeight: "600" as const,
+  },
+  commentTime: {
+    fontSize: 11,
+  },
+  commentContent: {
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  commentLike: {
+    flexDirection: "row" as const,
+    alignItems: "center" as const,
+    gap: 4,
+    alignSelf: "flex-start" as const,
+    paddingTop: 4,
+  },
+  commentLikeText: {
+    fontSize: 11,
+    fontWeight: "500" as const,
+  },
   header: {
     flexDirection: "row" as const,
     alignItems: "center" as const,

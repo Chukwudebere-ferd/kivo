@@ -30,7 +30,7 @@ export default function FeedScreen() {
     <View style={[s.container, { backgroundColor: theme.bg }]}>
       <View style={[s.header, { paddingTop: insets.top + 12 }]}>
         <Text style={[s.logo, { color: theme.text }]}>Kivo</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/(tabs)/search")}>
           <Ionicons name="search-outline" size={24} color={theme.text} />
         </TouchableOpacity>
       </View>

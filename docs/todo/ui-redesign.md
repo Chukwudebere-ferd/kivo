@@ -35,18 +35,26 @@ All emoji-based tab icons replaced with Ionicons via `@expo/vector-icons`.
 - Each pill has an icon + label
 - Active state: white text, black bg. Inactive: dark bg, gray text
 
-**TikTok video card**:
-- Full-height media placeholder area
-- **Right-side action buttons** (stacked vertically): Follow (circled ring), Like (with count), Comment (with count), Bookmark, Share
+**TikTok feed card**:
+- Media uses `expo-image` with real Unsplash photos (`contentFit="cover"`)
+- Card fills all remaining space from categories to tab bar (no gap)
+- Text-only post variant: dark card background with centered title + subtitle (for posts without media)
+- Mock feed items with swipe-ready data (index state, ready for gesture)
+- **Right-side action buttons**: Follow (circled ring), Like, Comment, Bookmark, Share with live counts
 - **Bottom-left overlay**: Category badge + timestamp + article title
 - Gradient overlay at bottom for readability
+- Uses `useSafeAreaInsets` for proper status bar padding
+
+### Bug fixed — missing packages after `@expo/vector-icons` install
+
+Installing `@expo/vector-icons` with `--legacy-peer-deps` removed 26 packages including `expo-linking` and all `@react-navigation/*` packages. Fixed by reinstalling them. See `docs/bugs/missing-expo-linking-and-react-navigation.md`.
 
 ### Files modified
 
 | File | Action |
 |------|--------|
 | `app/(tabs)/_layout.tsx` | Rewritten — 5 tabs with Ionicons |
-| `app/(tabs)/feed.tsx` | Rewritten — TikTok layout |
+| `app/(tabs)/feed.tsx` | Rewritten — TikTok layout with real images + text-only variant |
 | `app/(tabs)/profile.tsx` | Rewritten — emoji → icons |
 | `app/(tabs)/search.tsx` | Created |
 | `app/(tabs)/categories.tsx` | Created |
@@ -58,6 +66,5 @@ All emoji-based tab icons replaced with Ionicons via `@expo/vector-icons`.
 - Wire search tab with real search UI
 - Wire categories tab with category grid
 - Wire bookmarks tab with actual saved articles
-- Real media (images/video) in feed cards
-- Swipe-up gesture for next article
+- Swipe-up gesture for next article (vertical paging)
 - Connect auth to real backend API

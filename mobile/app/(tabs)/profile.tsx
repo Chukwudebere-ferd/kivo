@@ -91,7 +91,11 @@ export default function ProfileScreen() {
                     activeOpacity={item.type === "toggle" ? 1 : 0.6}
                     onPress={() => {
                       if (item.type === "link") {
-                        // handle navigation
+                        if (item.label === "Reading History") router.push("/profile/reading-history");
+                        if (item.label === "Bookmarks") router.push("/(tabs)/bookmarked");
+                        if (item.label === "Liked Posts") router.push("/profile/liked-posts");
+                        if (item.label === "Comments") router.push("/profile/comments");
+                        if (item.label === "About Kivo") router.push("/profile/about");
                       } else {
                         handleToggle(item.label);
                       }
